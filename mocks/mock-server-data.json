@@ -1,0 +1,66 @@
+{
+  "api": {
+    "titles": [
+      "Canal View Prinsengracht",
+      "Penthouse, 4-5 rooms + 5 balconies",
+      "House in countryside",
+      "Canal View Prinsengracht"
+    ],
+    "descriptions": [
+      "Discover daily local life in city center, friendly neighborhood, clandestine casino, karaoke, old-style artisans, art gallery and artist studio downstairs.",
+      "I am happy to welcome you to my apartment in the city center! Three words: location, cosy and chic!",
+      "This is a place for dreamers to reset, reflect, and create. Designed with a slow pace in mind, our hope is that you enjoy every part of your stay; from making local coffee by drip in the morning, choosing the perfect record to put on as the sun sets.",
+      "Peaceful studio in the most wanted area in town. Quiet house Near of everything. Completely renovated. Lovely neighbourhood, lot of trendy shops, restaurants and bars in a walking distance."
+    ],
+    "cities": [
+      { "name": "Paris", "coords": [48.85661, 2.351499] },
+      { "name": "Cologne", "coords": [50.938361, 6.959974] },
+      { "name": "Brussels", "coords": [50.846557, 4.351697] },
+      { "name": "Amsterdam", "coords": [52.370216, 4.895168] },
+      { "name": "Hamburg", "coords": [53.550341, 10.000654] },
+      { "name": "Dusseldorf", "coords": [51.225402, 6.776314] }
+    ],
+    "photos": [
+      "https://placebear.com/260/201",
+      "https://placebear.com/260/202",
+      "https://placebear.com/260/203",
+      "https://placebear.com/260/204",
+      "https://placebear.com/260/205",
+      "https://placebear.com/260/206"
+    ],
+    "features": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "housingType": ["apartment", "house", "room", "hotel"],
+    "host": {
+      "names": ["John", "Victor", "Maria", "Oleg"],
+      "emails": [
+        "getme@mail.ru",
+        "thisisit@bk.ru",
+        "nicetoseeyou@yandex.ru",
+        "whyarewestillhere@purpose.com"
+      ],
+      "userpics": [
+        "https://loremflickr.com/50/51",
+        "https://loremflickr.com/50/52",
+        "https://loremflickr.com/50/53",
+        "https://loremflickr.com/50/54"
+      ],
+      "passwords": ["qwerty", "1234!", "asdfg", "zxcvb!", "password1"]
+    },
+    "minMax": {
+      "rating": [1, 5],
+      "bedrooms": [1, 8],
+      "capacity": [1, 10],
+      "price": [100, 100000],
+      "comments": [0, 30],
+      "weekdays": [1, 7]
+    }
+  }
+}
