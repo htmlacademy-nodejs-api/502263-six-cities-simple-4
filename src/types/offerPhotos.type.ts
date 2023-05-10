@@ -1,1 +1,1 @@
-export type OfferPhotos = [string, string, string, string, string, string];
+export type TOfferPhotos = [string, string, string, string, string, string];

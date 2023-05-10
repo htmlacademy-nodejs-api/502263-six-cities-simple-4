@@ -1,1 +1,1 @@
-export type Location = { lat: number; lng: number };
+export type TLocation = { lat: number; lng: number };

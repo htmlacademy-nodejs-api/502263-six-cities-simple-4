@@ -1,4 +1,4 @@
-export type Host = {
+export type THost = {
   name: string; // length 1 — 15
   email: string;
   userpic: string;

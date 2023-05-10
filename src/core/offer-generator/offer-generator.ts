@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { OfferGeneratorInterface } from './offer-generator.interface';
-import { MockData } from '../../types/mock-data.type';
+import { TMockData } from '../../types/mock-data.type';
 import {
   getRandomIntFromMinMaxTuple,
   getRandomArrItem,
@@ -11,39 +11,46 @@ import {
 } from '../helpers/index.js';
 
 export default class OfferGenerator implements OfferGeneratorInterface {
-  constructor(private readonly mockData: MockData) {}
+  constructor(private readonly mockData: TMockData) {}
 
   public generate() {
-    const mock = this.mockData;
+    const {
+      cities,
+      titles,
+      descriptions,
+      photos,
+      housing,
+      host,
+      features,
+      minMax,
+    } = this.mockData;
 
-    const currentCity = getRandomArrItem(mock.cities);
+    const currentCity = getRandomArrItem(cities);
 
-    const title = getRandomArrItem<string>(mock.titles);
-    const description = getRandomArrItem<string>(mock.descriptions);
+    const title = getRandomArrItem<string>(titles);
+    const description = getRandomArrItem<string>(descriptions);
     const postedAt = dayjs()
-      .subtract(getRandomIntFromMinMaxTuple(mock.minMax.weekdays), 'day')
+      .subtract(getRandomIntFromMinMaxTuple(minMax.weekdays), 'day')
       .toISOString();
     const city = currentCity.name;
-    const mainPhoto = getRandomArrItem<string>(mock.photos);
-    const offerPhotos = mock.photos.join(TSV_SEPARATOR.String);
+    const mainPhoto = getRandomArrItem<string>(photos);
+    const offerPhotos = photos.join(TSV_SEPARATOR.String);
     const isPremium = getRandomBoolean();
-    const rating = getRandomIntFromMinMaxTuple(mock.minMax.rating);
-    const housingType = getRandomArrItem<string>(mock.housingType);
-    const bedroomsAmount = getRandomIntFromMinMaxTuple(
-      mock.minMax.bedrooms
-    );
-    const capacity = getRandomIntFromMinMaxTuple(mock.minMax.capacity);
-    const price = getRandomIntFromMinMaxTuple(mock.minMax.price);
-    const features = getRandomLengthArr(mock.features).join(
+    const rating = getRandomIntFromMinMaxTuple(minMax.rating);
+    const housingName = getRandomArrItem<string>(housing);
+    const bedroomsAmount = getRandomIntFromMinMaxTuple(minMax.bedrooms);
+    const capacity = getRandomIntFromMinMaxTuple(minMax.capacity);
+    const price = getRandomIntFromMinMaxTuple(minMax.price);
+    const featuresList = getRandomLengthArr(features).join(
       TSV_SEPARATOR.String
     );
-    const host = [
-      getRandomArrItem<string>(mock.host.names),
-      getRandomArrItem<string>(mock.host.emails),
-      getRandomArrItem<string>(mock.host.userpics),
-      getRandomArrItem<string>(mock.host.passwords),
+    const hostInfo = [
+      getRandomArrItem<string>(host.names),
+      getRandomArrItem<string>(host.emails),
+      getRandomArrItem<string>(host.userpics),
+      getRandomArrItem<string>(host.passwords),
     ].join(TSV_SEPARATOR.String);
-    const commentsAmount = getRandomIntFromMinMaxTuple(mock.minMax.comments);
+    const commentsAmount = getRandomIntFromMinMaxTuple(minMax.comments);
     const location = currentCity.coords.join(TSV_SEPARATOR.String);
 
     return [
@@ -55,12 +62,12 @@ export default class OfferGenerator implements OfferGeneratorInterface {
       offerPhotos,
       isPremium,
       rating,
-      housingType,
+      housingName,
       bedroomsAmount,
       capacity,
       price,
-      features,
-      host,
+      featuresList,
+      hostInfo,
       commentsAmount,
       location,
     ].join(TSV_SEPARATOR.Tab);

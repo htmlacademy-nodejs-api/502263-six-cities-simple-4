@@ -1,6 +1,6 @@
 type MinMax = [number, number];
 
-export type MockData = {
+export type TMockData = {
   titles: string[];
   descriptions: string[];
   cities: {
@@ -9,7 +9,7 @@ export type MockData = {
   }[];
   photos: string[];
   features: string[];
-  housingType: string[];
+  housing: string[];
   host: {
     names: string[];
     emails: string[];

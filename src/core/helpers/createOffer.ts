@@ -1,12 +1,12 @@
-import { Offer } from '../../types/offer.type.js';
-import { City } from '../../types/city.type.js';
-import { Housing } from '../../types/housing.type.js';
-import { Features } from '../../types/features.type.js';
-import { OfferPhotos } from '../../types/offerPhotos.type.js';
-import { StringBool } from '../../types/string-bool.type.js';
+import { TOffer } from '../../types/offer.type.js';
+import { TCity } from '../../types/city.type.js';
+import { THousing } from '../../types/housing.type.js';
+import { TFeatures } from '../../types/features.type.js';
+import { TOfferPhotos } from '../../types/offerPhotos.type.js';
+import { TStringBool } from '../../types/string-bool.type.js';
 import { TSV_SEPARATOR, stringBoolToBool } from './index.js';
 
-export function createOffer(offerData: string): Offer {
+export function createOffer(offerData: string): TOffer {
   const [
     title,
     description,
@@ -16,7 +16,7 @@ export function createOffer(offerData: string): Offer {
     allPhotos,
     isPremium,
     rating,
-    housingType,
+    housing,
     bedroomsAmount,
     capacity,
     price,
@@ -33,26 +33,26 @@ export function createOffer(offerData: string): Offer {
     title,
     description,
     postedAt: new Date(postedAt),
-    city: city as City,
+    city: city as TCity,
     photos: {
       preview,
-      all: allPhotos.split(TSV_SEPARATOR.String) as OfferPhotos,
+      all: allPhotos.split(TSV_SEPARATOR.String) as TOfferPhotos,
     },
-    isPremium: stringBoolToBool(isPremium as StringBool),
-    rating: +rating,
-    housingType: housingType as Housing,
-    bedroomsAmount: +bedroomsAmount,
-    capacity: +capacity,
-    price: +price,
-    features: features.split(TSV_SEPARATOR.String) as Features[],
+    isPremium: stringBoolToBool(isPremium as TStringBool),
+    rating: Number(rating),
+    housing: housing as THousing,
+    bedroomsAmount: Number(bedroomsAmount),
+    capacity: Number(capacity),
+    price: Number(price),
+    features: features.split(TSV_SEPARATOR.String) as TFeatures[],
     host: {
       name,
       email,
       userpic,
       password,
-      isPro: stringBoolToBool(hostIsPro as StringBool),
+      isPro: stringBoolToBool(hostIsPro as TStringBool),
     },
-    commentsAmount: +commentsAmount,
-    location: { lat: +lat, lng: +lng },
+    commentsAmount: Number(commentsAmount),
+    location: { lat: Number(lat), lng: Number(lng) },
   };
 }

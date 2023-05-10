@@ -1,13 +1,13 @@
 import got from 'got';
 import TSVFileWriter from '../file-writer/tsv-file-writer.js';
-import { MockData } from '../../types/mock-data.type';
+import { TMockData } from '../../types/mock-data.type';
 import { CliCommandInterface } from './cli-comand.interface';
 import { getCliTextColor } from '../helpers/cliColors.js';
 import OfferGenerator from '../offer-generator/offer-generator.js';
 
 export default class GenerateCommand implements CliCommandInterface {
   public readonly name = '--generate';
-  private initialData!: MockData;
+  private initialData!: TMockData;
 
   public async execute(...parameters:string[]): Promise<void> {
     const [offersCount, filepath, url] = parameters;
@@ -23,7 +23,7 @@ export default class GenerateCommand implements CliCommandInterface {
     const offerGeneratorString = new OfferGenerator(this.initialData);
     const tsvFileWriter = new TSVFileWriter(filepath);
 
-    for (let i = 0; i < +offersCount; i++) {
+    for (let i = 0; i < Number(offersCount); i++) {
       await tsvFileWriter.write(offerGeneratorString.generate());
     }
 

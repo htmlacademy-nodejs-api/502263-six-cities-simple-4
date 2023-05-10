@@ -37,7 +37,7 @@
       "Towels",
       "Fridge"
     ],
-    "housingType": ["apartment", "house", "room", "hotel"],
+    "housing": ["apartment", "house", "room", "hotel"],
     "host": {
       "names": ["John", "Victor", "Maria", "Oleg"],
       "emails": [
