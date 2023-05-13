@@ -1,79 +1,35 @@
-import { readFileSync } from 'node:fs';
-
+import EventEmitter from 'node:events';
+import { createReadStream } from 'node:fs';
 import { FileReaderInterface } from './file-reader.interface';
-import { Offer } from '../../types/offer.type';
-import { City } from '../../types/city.type';
-import { Housing } from '../../types/housing.type';
-import { Features } from '../../types/features.type';
-import { OfferPhotos } from '../../types/offerPhotos.type';
+import { CHUNK_SIZE } from '../helpers/index.js';
 
-export default class TSVFileReader implements FileReaderInterface {
-  private rawData = '';
-
-  constructor(public filename: string) {}
-
-  public read(): void {
-    this.rawData = readFileSync(this.filename, { encoding: 'utf8' });
+export default class TSVFileReader extends EventEmitter implements FileReaderInterface {
+  constructor(public filename: string) {
+    super();
   }
 
-  public toArray(): Offer[] | [] {
-    if (!this.rawData) {
-      return [];
+  public async read(): Promise<void> {
+    const stream = createReadStream(this.filename, {
+      highWaterMark: CHUNK_SIZE.Read,
+      encoding: 'utf-8',
+    });
+
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
+
+    for await (const chunk of stream) {
+      remainingData += chunk.toString();
+
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        this.emit('line', completeRow);
+      }
     }
 
-    return this.rawData
-      .split('\n')
-      .filter((row) => row.trim() !== '')
-      .map((line) => line.split('\t'))
-      .map(
-        ([
-          title,
-          description,
-          postedAt,
-          city,
-          preview,
-          allPhotos,
-          isPremium,
-          rating,
-          housingType,
-          bedroomsAmount,
-          capacity,
-          price,
-          features,
-          host,
-          commentsAmount,
-          location,
-        ]) => {
-          const [name, email, userpic, password, hostIsPro] = host.split(',');
-          const [lat, lng] = location.split(',');
-
-          return {
-            title,
-            description,
-            postedAt: new Date(+postedAt),
-            city: city as City,
-            photos: {
-              preview,
-              all: allPhotos.split(',') as OfferPhotos,
-            },
-            isPremium: isPremium === 'true',
-            rating: +rating,
-            housingType: housingType as Housing,
-            bedroomsAmount: +bedroomsAmount,
-            capacity: +capacity,
-            price: +price,
-            features: features.split(',') as Features[],
-            host: {
-              name,
-              email,
-              userpic,
-              password,
-              isPro: hostIsPro === 'true',
-            },
-            commentsAmount: +commentsAmount,
-            location: {lat: +lat, lng: +lng}
-          };
-        }
-      );
+    this.emit('end', importedRowCount);
   }
 }

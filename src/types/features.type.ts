@@ -1,4 +1,4 @@
-export type Features =
+export type TFeatures =
   | 'Breakfast'
   | 'Air conditioning'
   | 'Laptop friendly workspace'

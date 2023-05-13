@@ -1,8 +1,7 @@
-import chalk from 'chalk';
-
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
+import { getCliTextColor } from '../helpers/cliColors.js';
 import { CliCommandInterface } from './cli-comand.interface';
 
 export default class VersionCommand implements CliCommandInterface {
@@ -19,6 +18,6 @@ export default class VersionCommand implements CliCommandInterface {
 
   public async execute(): Promise<void> {
     const version = this.readVersion();
-    console.log(chalk.blue(version));
+    console.log(getCliTextColor.warning(version));
   }
 }
