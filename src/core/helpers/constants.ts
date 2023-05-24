@@ -11,3 +11,14 @@ export const CHUNK_SIZE = {
   /** 64KB */
   Write: 2 ** 16
 };
+
+export const DB = {
+  RetryConnections: {
+    Count: 5,
+    Timeout: 1_000,
+  },
+  Default: {
+    Port: '27017',
+    UserPassword: '123456',
+  }
+};

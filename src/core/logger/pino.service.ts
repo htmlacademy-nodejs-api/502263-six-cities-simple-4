@@ -20,10 +20,14 @@ export default class PinoService implements LoggerInterface {
   }
 
   public info(message: string, ...args: unknown[]): void {
-    this.logger.info(message, ...args);
+    this.logger.silent(message, ...args);
   }
 
   public warn(message: string, ...args: unknown[]): void {
     this.logger.warn(message, ...args);
+  }
+
+  public success(message: string, ...args: unknown[]): void {
+    this.logger.info(message, ...args);
   }
 }

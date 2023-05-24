@@ -10,7 +10,7 @@ export type TMockData = {
   photos: string[];
   features: string[];
   housing: string[];
-  host: {
+  user: {
     names: string[];
     emails: string[];
     userpics: string[];

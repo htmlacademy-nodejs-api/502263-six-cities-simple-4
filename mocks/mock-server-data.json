@@ -38,7 +38,7 @@
       "Fridge"
     ],
     "housing": ["apartment", "house", "room", "hotel"],
-    "host": {
+    "user": {
       "names": ["John", "Victor", "Maria", "Oleg"],
       "emails": [
         "getme@mail.ru",
