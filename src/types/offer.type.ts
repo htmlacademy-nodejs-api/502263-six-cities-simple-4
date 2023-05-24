@@ -1,6 +1,6 @@
 import { TCity } from './city.type';
 import { TFeatures } from './features.type';
-import { THost } from './host.type';
+import { TUser } from './user.type';
 import { THousing } from './housing.type';
 import { TLocation } from './location.type';
 import { TOfferPhotos } from './offerPhotos.type';
@@ -21,7 +21,7 @@ export type TOffer = {
   capacity: number; // 1 — 10
   price: number; // 100 — 100_000
   features: TFeatures[];
-  host: THost;
+  user: TUser;
   commentsAmount: number;
   location: TLocation;
 };

@@ -1,4 +1,4 @@
-import { getCliTextColor } from '../helpers/cliColors.js';
+import { getCliTextColor } from '../helpers/index.js';
 import { CliCommandInterface } from './cli-comand.interface';
 
 export default class HelpCommand implements CliCommandInterface {
@@ -12,10 +12,12 @@ ${getCliTextColor.warning('Программа для подготовки дан
 
 Команды:
 
-${(getCliTextColor.code('--version'))}${getCliTextColor.text('                    # выводит номер версии')}
-${(getCliTextColor.code('--help'))}${getCliTextColor.text('                       # печатает этот текст')}
-${(getCliTextColor.code('--import <path>'))}${getCliTextColor.text('              # импортирует данные из TSV')}
-${(getCliTextColor.code('--generate <n> <path> <url>'))}${getCliTextColor.text('  # генерирует произвольное количество тестовых данных')}
+${(getCliTextColor.code('--version'))}${getCliTextColor.text('                              # выводит номер версии')}
+${(getCliTextColor.code('--help'))}${getCliTextColor.text('                                 # печатает этот текст')}
+${(getCliTextColor.code(`--import <mocksPath> <username>
+  <userPassword> <host> 
+  <dbName> <salt>`))}${getCliTextColor.text('                      # импортирует данные из TSV')}
+${(getCliTextColor.code('--generate <n> <outputFilePath> <url>'))}${getCliTextColor.text('  # генерирует произвольное количество тестовых данных')}
 `);
   }
 }

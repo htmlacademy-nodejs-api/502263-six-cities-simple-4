@@ -20,7 +20,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
       descriptions,
       photos,
       housing,
-      host,
+      user,
       features,
       minMax,
     } = this.mockData;
@@ -44,11 +44,11 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const featuresList = getRandomLengthArr(features).join(
       TSV_SEPARATOR.String
     );
-    const hostInfo = [
-      getRandomArrItem<string>(host.names),
-      getRandomArrItem<string>(host.emails),
-      getRandomArrItem<string>(host.userpics),
-      getRandomArrItem<string>(host.passwords),
+    const userInfo = [
+      getRandomArrItem<string>(user.names),
+      getRandomArrItem<string>(user.emails),
+      getRandomArrItem<string>(user.userpics),
+      getRandomArrItem<string>(user.passwords),
     ].join(TSV_SEPARATOR.String);
     const commentsAmount = getRandomIntFromMinMaxTuple(minMax.comments);
     const location = currentCity.coords.join(TSV_SEPARATOR.String);
@@ -67,7 +67,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
       capacity,
       price,
       featuresList,
-      hostInfo,
+      userInfo,
       commentsAmount,
       location,
     ].join(TSV_SEPARATOR.Tab);

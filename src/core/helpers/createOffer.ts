@@ -21,12 +21,12 @@ export function createOffer(offerData: string): TOffer {
     capacity,
     price,
     features,
-    host,
+    user,
     commentsAmount,
     location,
   ] = offerData.replace('\n', '').split(TSV_SEPARATOR.Tab);
 
-  const [name, email, userpic, password, hostIsPro] = host.split(TSV_SEPARATOR.String);
+  const [name, email, userpic, password, userIsPro] = user.split(TSV_SEPARATOR.String);
   const [lat, lng] = location.split(TSV_SEPARATOR.String);
 
   return {
@@ -45,12 +45,12 @@ export function createOffer(offerData: string): TOffer {
     capacity: Number(capacity),
     price: Number(price),
     features: features.split(TSV_SEPARATOR.String) as TFeatures[],
-    host: {
+    user: {
       name,
       email,
       userpic,
       password,
-      isPro: stringBoolToBool(hostIsPro as TStringBool),
+      isPro: stringBoolToBool(userIsPro as TStringBool),
     },
     commentsAmount: Number(commentsAmount),
     location: { lat: Number(lat), lng: Number(lng) },

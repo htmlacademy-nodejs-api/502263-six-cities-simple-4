@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { getCliTextColor } from '../helpers/cliColors.js';
+import { getCliTextColor } from '../helpers/index.js';
 import { CliCommandInterface } from './cli-comand.interface';
 
 export default class VersionCommand implements CliCommandInterface {
