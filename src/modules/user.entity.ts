@@ -43,7 +43,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements TUser {
     this.password = createSHA256(password, salt);
   }
 
-  get getPassword() {
+  public getPassword() {
     return this.password;
   }
 }
