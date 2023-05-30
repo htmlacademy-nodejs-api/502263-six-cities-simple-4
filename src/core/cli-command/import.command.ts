@@ -9,7 +9,7 @@ import UserService from '../../modules/user/user.service.js';
 import MongoClientService from '../database-client/mongo-client.service.js';
 import { OfferModel } from '../../modules/offer/offer.entity.js';
 import { DatabaseClientInterface } from '../database-client/database-client.interface.js';
-import { UserModel } from '../../modules/user.entity.js';
+import { UserModel } from '../../modules/user/user.entity.js';
 import { CliCommandInterface } from './cli-comand.interface.js';
 import { TOffer } from '../../types/offer.type.js';
 

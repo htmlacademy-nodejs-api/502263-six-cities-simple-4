@@ -54,6 +54,6 @@ export const configRestSchema = convict<RestSchema>({
     doc: 'Имя БД (MongoDB)',
     format: String,
     env: 'DB_NAME',
-    default: 'buy-and-sell'
+    default: 'db'
   }
 });
