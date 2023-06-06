@@ -12,12 +12,12 @@ ${getCliTextColor.warning('Программа для подготовки дан
 
 Команды:
 
-${(getCliTextColor.code('--version'))}${getCliTextColor.text('                              # выводит номер версии')}
-${(getCliTextColor.code('--help'))}${getCliTextColor.text('                                 # печатает этот текст')}
+${(getCliTextColor.code('--version'))}${getCliTextColor.info('                              # выводит номер версии')}
+${(getCliTextColor.code('--help'))}${getCliTextColor.info('                                 # печатает этот текст')}
 ${(getCliTextColor.code(`--import <mocksPath> <username>
   <userPassword> <host> 
-  <dbName> <salt>`))}${getCliTextColor.text('                      # импортирует данные из TSV')}
-${(getCliTextColor.code('--generate <n> <outputFilePath> <url>'))}${getCliTextColor.text('  # генерирует произвольное количество тестовых данных')}
+  <dbName> <salt>`))}${getCliTextColor.info('                      # импортирует данные из TSV')}
+${(getCliTextColor.code('--generate <n> <outputFilePath> <url>'))}${getCliTextColor.info('  # генерирует произвольное количество тестовых данных')}
 `);
   }
 }

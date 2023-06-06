@@ -1,27 +1,19 @@
-import { TCity } from '../../../types/city.type.js';
-import { TFeatures } from '../../../types/features.type.js';
-import { TUser } from '../../../types/user.type.js';
-import { THousing } from '../../../types/housing.type.js';
-import { TLocation } from '../../../types/location.type.js';
-import { TOfferPhotos } from '../../../types/offerPhotos.type.js';
+import { TOffer } from '../../../types/offer.type.js';
 
 export default class CreateOfferDto {
-  public title!: string;
-  public description!: string;
-  public postedAt!: Date;
-  public city!: TCity;
-  public isPremium!: boolean;
-  public rating!: number;
-  public housing!: THousing;
-  public bedroomsAmount!: number;
-  public capacity!: number;
-  public price!: number;
-  public features!: TFeatures[];
-  public user!: TUser;
-  public commentsAmount!: number;
-  public location!: TLocation;
-  public photos!: {
-    preview: string
-    all: TOfferPhotos
-  };
+  public title!: TOffer['title'];
+  public description!: TOffer['description'];
+  public postedAt!: TOffer['postedAt'];
+  public city!: TOffer['city'];
+  public isPremium!: TOffer['isPremium'];
+  public rating!: TOffer['rating'];
+  public housing!: TOffer['housing'];
+  public bedroomsAmount!: TOffer['bedroomsAmount'];
+  public capacity!: TOffer['capacity'];
+  public price!: TOffer['price'];
+  public features!: TOffer['features'];
+  public user!: TOffer['user'];
+  public commentsAmount!: TOffer['commentsAmount'];
+  public location!: TOffer['location'];
+  public photos!: TOffer['photos'];
 }

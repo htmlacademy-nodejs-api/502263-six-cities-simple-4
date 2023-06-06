@@ -5,16 +5,25 @@ import { AppComponent } from '../types/app-component.enum.js';
 import { inject, injectable } from 'inversify';
 import { DatabaseClientInterface } from '../core/database-client/database-client.interface';
 import { getMongoURI } from '../core/helpers/index.js';
+import express, { Express } from 'express';
+import { ControllerInterface } from '../core/controller/controller.interface.js';
 
 @injectable()
 export default class RestApplication {
+  private expressApplication: Express;
+
   constructor(
     @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface,
     @inject(AppComponent.ConfigInterface) private readonly config: ConfigInterface<RestSchema>,
     @inject(AppComponent.DatabaseClientInterface) private readonly databaseClient: DatabaseClientInterface,
-  ) {}
+    @inject(AppComponent.OfferController) private readonly offerController: ControllerInterface,
+  ) {
+    this.expressApplication = express();
+  }
 
   private async _initDb() {
+    this.logger.info('Инициализация базы данных…');
+
     const mongoUri = getMongoURI(
       this.config.get('DB_USER'),
       this.config.get('DB_PASSWORD'),
@@ -23,14 +32,30 @@ export default class RestApplication {
       this.config.get('DB_NAME'),
     );
 
-    return this.databaseClient.connect(mongoUri);
+    await this.databaseClient.connect(mongoUri);
+    this.logger.info('База данных инициирована успешно');
+  }
+
+  private async _initServer() {
+    this.logger.info('Поднимаем сервер…');
+    const port = this.config.get('PORT');
+
+    this.expressApplication.listen(port);
+    this.logger.success(`🚀 Сервер запущен на http://localhost:${port}`);
+  }
+
+  private async _initRoutes() {
+    this.logger.info('Инициализация контроллеров…');
+    this.expressApplication.use('/offers', this.offerController.router);
+    this.logger.success('Контроллеры успешно созданы.');
   }
 
   public async init() {
     this.logger.info(`Приложение запускается… Значение env переменной $PORT: ${this.config.get('PORT')}`);
 
-    this.logger.info('Запускаем базу данных…');
     await this._initDb();
-    this.logger.success('База данных успешно запущена');
+    await this._initRoutes();
+    await this._initServer();
+    this.logger.success('REST приложение успешно запущено');
   }
 }
