@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
-import CreateOfferDto from './dto/create-offer.dto.js';
 import { DocumentType, types } from '@typegoose/typegoose';
+
+import CreateOfferDto from './dto/create-offer.dto.js';
 import { OfferEntity } from './offer.entity.js';
 import { AppComponent } from '../../types/app-component.enum.js';
 import { LoggerInterface } from '../../core/logger/logger.interface.js';
@@ -34,7 +35,7 @@ export default class OfferService implements OfferServiceInterface {
     const limit = amount >= DEFAULT_OFFER_AMOUNT ? DEFAULT_OFFER_AMOUNT : amount;
     return this.offerModel
       .find({}, {}, {limit})
-      // .populate(DEFAULT_POPULATE_OPTIONS) // TODO популяция не работает:  Cannot populate path `offers` because it is not in your schema. Set the `strictPopulate` option to false to override.
+      .populate(DEFAULT_POPULATE_OPTIONS)
       .exec();
   }
 
@@ -51,15 +52,15 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async exists(documentId: string): Promise<boolean> {
-    return Boolean(await this.offerModel
-      .exists({_id: documentId}));
-  }
-
   public incCommentsAmount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, {'$inc': {
         commentsAmount: 1,
       }}).exec();
+  }
+
+  public async exists(documentId: string): Promise<boolean> {
+    return Boolean(await this.offerModel
+      .exists({_id: documentId}));
   }
 }

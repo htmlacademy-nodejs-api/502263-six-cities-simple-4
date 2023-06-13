@@ -1,8 +1,9 @@
+import { config } from 'dotenv';
+import { inject, injectable } from 'inversify';
+
 import { ConfigInterface } from './config.interface.js';
 import { LoggerInterface } from '../logger/logger.interface.js';
-import { config } from 'dotenv';
 import { configRestSchema, RestSchema } from './rest.schema.js';
-import { inject, injectable } from 'inversify';
 import { AppComponent } from '../../types/app-component.enum.js';
 
 @injectable()
@@ -22,7 +23,7 @@ export default class ConfigService implements ConfigInterface<RestSchema> {
     configRestSchema.validate({ allowed: 'strict', output: this.logger.info });
 
     this.config = configRestSchema.getProperties();
-    this.logger.info('.env файл найден и успешно прочитан.');
+    this.logger.success('.env файл найден и успешно прочитан.');
   }
 
   public get<T extends keyof RestSchema>(key: T): RestSchema[T] {

@@ -1,7 +1,8 @@
 import { Expose } from 'class-transformer';
+
 import { TOffer } from '../../../types/offer.type';
 
-export default class OfferRdo {
+export default class OfferRDO {
   @Expose()
   public price!: TOffer['price'];
 

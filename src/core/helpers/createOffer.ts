@@ -1,8 +1,4 @@
 import { TOffer } from '../../types/offer.type.js';
-import { TCity } from '../../types/city.type.js';
-import { THousing } from '../../types/housing.type.js';
-import { TFeatures } from '../../types/features.type.js';
-import { TOfferPhotos } from '../../types/offerPhotos.type.js';
 import { TStringBool } from '../../types/string-bool.type.js';
 import { TSV_SEPARATOR, stringBoolToBool } from './index.js';
 
@@ -33,18 +29,18 @@ export function createOffer(offerData: string): TOffer {
     title,
     description,
     postedAt: new Date(postedAt),
-    city: city as TCity,
+    city: city as TOffer['city'],
     photos: {
       preview,
-      all: allPhotos.split(TSV_SEPARATOR.String) as TOfferPhotos,
+      all: allPhotos.split(TSV_SEPARATOR.String) as TOffer['photos']['all'],
     },
     isPremium: stringBoolToBool(isPremium as TStringBool),
     rating: Number(rating),
-    housing: housing as THousing,
+    housing: housing as TOffer['housing'],
     bedroomsAmount: Number(bedroomsAmount),
     capacity: Number(capacity),
     price: Number(price),
-    features: features.split(TSV_SEPARATOR.String) as TFeatures[],
+    features: features.split(TSV_SEPARATOR.String) as TOffer['features'],
     user: {
       name,
       email,
