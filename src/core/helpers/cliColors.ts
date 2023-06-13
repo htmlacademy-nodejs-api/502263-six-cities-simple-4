@@ -6,5 +6,5 @@ export const getCliTextColor = {
   warning: (str: string) => chalk.yellow(str),
   error: (str: string) => chalk.red(str),
   code: (str: string) => chalk.blue(str),
-  text: (str: string) => chalk.gray(str),
+  info: (str: string) => chalk.gray(str),
 };

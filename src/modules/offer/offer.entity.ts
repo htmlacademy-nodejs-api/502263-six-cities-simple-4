@@ -1,10 +1,5 @@
 import typegoose, {defaultClasses, getModelForClass } from '@typegoose/typegoose';
-import { TCity } from '../../types/city.type.js';
-import { TOfferPhotos } from '../../types/offerPhotos.type.js';
-import { THousing } from '../../types/housing.type.js';
-import { TFeatures } from '../../types/features.type.js';
-import { TUser } from '../../types/user.type.js';
-import { TLocation } from '../../types/location.type.js';
+import { TOffer } from '../../types/offer.type.js';
 
 const { prop, modelOptions } = typegoose;
 
@@ -20,52 +15,49 @@ export interface OfferEntity extends defaultClasses.Base {}
 })
 export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({trim: true, required: true})
-  public title!: string;
+  public title!: TOffer['title'];
 
   @prop({trim: true})
-  public description!: string;
+  public description!: TOffer['description'];
 
   @prop()
-  public postedAt!: Date;
+  public postedAt!: TOffer['postedAt'];
 
   @prop({required: true})
-  public city!: TCity;
+  public city!: TOffer['city'];
 
   @prop()
-  public photos!: {
-    preview: string
-    all: TOfferPhotos
-  };
+  public photos!: TOffer['photos'];
 
   @prop({default: false})
-  public isPremium!: boolean;
+  public isPremium!: TOffer['isPremium'];
 
   @prop()
-  public rating!: number;
+  public rating!: TOffer['rating'];
 
   @prop()
-  public housing!: THousing;
+  public housing!: TOffer['housing'];
 
   @prop()
-  public bedroomsAmount!: number;
+  public bedroomsAmount!: TOffer['bedroomsAmount'];
 
   @prop({required: true})
-  public capacity!: number;
+  public capacity!: TOffer['capacity'];
 
   @prop({required: true})
-  public price!: number;
+  public price!: TOffer['price'];
 
   @prop({required: true})
-  public features!: TFeatures[];
+  public features!: TOffer['features'];
 
   @prop({required: true})
-  public user!: TUser;
+  public user!: TOffer['user'];
 
   @prop({default: 0})
-  public commentsAmount!: number;
+  public commentsAmount!: TOffer['commentsAmount'];
 
   @prop({required: true})
-  public location!: TLocation;
+  public location!: TOffer['location'];
 }
 
 export const OfferModel = getModelForClass(OfferEntity);

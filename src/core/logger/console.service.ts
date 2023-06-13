@@ -7,7 +7,7 @@ export default class ConsoleLoggerService implements LoggerInterface {
   }
 
   public info(message: string, ...args: unknown[]): void {
-    console.info(getCliTextColor.text(message), ...args);
+    console.info(getCliTextColor.info(message), ...args);
   }
 
   public error(message: string, ...args: unknown[]): void {

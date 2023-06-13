@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import mongoose, { Mongoose } from 'mongoose';
 import { setTimeout } from 'node:timers/promises';
+
 import { DatabaseClientInterface } from './database-client.interface.js';
 import { AppComponent } from '../../types/app-component.enum.js';
 import { LoggerInterface } from '../logger/logger.interface.js';
@@ -53,7 +54,7 @@ export default class MongoClientService implements DatabaseClientInterface {
 
     this.logger.info('Подключаемся к MongoDB…');
     await this._connect(uri);
-    this.logger.success('Подключение к MongoDB успешно!');
+    this.logger.success('Подключение к MongoDB успешно');
   }
 
   public async disconnect(): Promise<void> {

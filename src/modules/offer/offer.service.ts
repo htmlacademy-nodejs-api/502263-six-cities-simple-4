@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
-import CreateOfferDto from './dto/create-offer.dto.js';
 import { DocumentType, types } from '@typegoose/typegoose';
+
+import CreateOfferDto from './dto/create-offer.dto.js';
 import { OfferEntity } from './offer.entity.js';
 import { AppComponent } from '../../types/app-component.enum.js';
 import { LoggerInterface } from '../../core/logger/logger.interface.js';
@@ -22,43 +23,44 @@ export default class OfferService implements OfferServiceInterface {
     return result;
   }
 
-  public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  public findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findById(offerId)
       .populate(DEFAULT_POPULATE_OPTIONS)
       .exec();
   }
 
-  public async find(amount: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = amount ?? DEFAULT_OFFER_AMOUNT;
+  public find(amount: number): Promise<DocumentType<OfferEntity>[]> {
+    // TODO передавать откуда начинать поиск, так при большом количестве офферов и небольшом лимите всегда будет возвращаться один и тот же набор
+    const limit = amount >= DEFAULT_OFFER_AMOUNT ? DEFAULT_OFFER_AMOUNT : amount;
     return this.offerModel
       .find({}, {}, {limit})
       .populate(DEFAULT_POPULATE_OPTIONS)
       .exec();
   }
 
-  public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  public deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndDelete(offerId)
       .exec();
   }
 
-  public async updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
+  public updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, {new: true})
       .populate(DEFAULT_POPULATE_OPTIONS)
       .exec();
   }
 
-  public async exists(documentId: string): Promise<boolean> {
-    return (await this.offerModel
-      .exists({_id: documentId})) !== null;
-  }
-
-  public async incCommentsAmount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  public incCommentsAmount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, {'$inc': {
         commentsAmount: 1,
       }}).exec();
+  }
+
+  public async exists(documentId: string): Promise<boolean> {
+    return Boolean(await this.offerModel
+      .exists({_id: documentId}));
   }
 }
