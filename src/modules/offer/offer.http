@@ -1,0 +1,53 @@
+# Объявления
+## Объявление по идентификатору
+GET http://localhost:4000/offers/647ca1b5c529f56cd2734a62 HTTP/1.1
+
+###
+## Список всех объявлений
+GET http://localhost:4000/offers HTTP/1.1
+
+###
+## Список из amount объявлений
+GET http://localhost:4000/offers?amount=4 HTTP/1.1
+
+###
+## Создание объявления
+POST http://localhost:4000/offers HTTP/1.1
+Content-Type: application/json
+
+{
+ "title":"Hillbilly mansion",
+ "description":"Some place for fools",
+ "postedAt":"2023-05-28T14:17:32.955Z",
+ "city":"Amsterdam",
+ "photos":{"preview":"https://placebear.com/260/201","all":["https://placebear.com/260/201","https://placebear.com/260/202","https://placebear.com/260/203","https://placebear.com/260/204","https://placebear.com/260/205","https://placebear.com/260/206"]},
+ "isPremium":false,
+ "rating":4,
+ "housing":"hotel",
+ "bedroomsAmount":2,
+ "capacity":7,
+ "price":40389,
+ "features":["Washer","Towels","Fridge"],
+ "user": "647ca1b5c529f56cd2734a60",
+ "commentsAmount":6,
+ "location":{"lat":52.370216,"lng":4.895168}
+}
+
+## TODO при передачи юзера с валидным айди он оне подтягивается, а остается строкой
+
+###
+## Удаление объявления
+DELETE http://localhost:4000/offers/648b72b956e1f8738144b239 HTTP/1.1
+
+###
+## Обновление объявления
+PATCH http://localhost:4000/offers/647ca1b5c529f56cd2734a62 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Хостел бесовской"
+}
+
+###
+## Список комментариев к объявлению
+GET http://localhost:4000/offers/647ca1b5c529f56cd2734a62/comments HTTP/1.1

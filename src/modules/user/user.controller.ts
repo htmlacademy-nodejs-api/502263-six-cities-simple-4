@@ -14,13 +14,17 @@ import CreateUserDto from './dto/create-user.dto.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import UserRdo from './rdo/user.rdo.js';
 import { UserServiceInterface } from './user-service.interface';
+import { ValidateDtoMiddleware } from '../../core/middlewares/validate-dto.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
   constructor(
-    @inject(AppComponent.LoggerInterface) protected readonly logger: LoggerInterface,
-    @inject(AppComponent.UserServiceInterface) private readonly userService: UserServiceInterface,
-    @inject(AppComponent.ConfigInterface) private readonly configService: ConfigInterface<RestSchema>
+    @inject(AppComponent.LoggerInterface)
+    protected readonly logger: LoggerInterface,
+    @inject(AppComponent.UserServiceInterface)
+    private readonly userService: UserServiceInterface,
+    @inject(AppComponent.ConfigInterface)
+    private readonly configService: ConfigInterface<RestSchema>
   ) {
     super(logger);
 
@@ -29,53 +33,59 @@ export default class UserController extends Controller {
       path: '/register',
       method: HttpMethod.Post,
       handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateUserDto)],
     });
     this.addRoute({
       path: '/login',
       method: HttpMethod.Post,
       handler: this.login,
+      middlewares: [new ValidateDtoMiddleware(LoginUserDto)],
     });
   }
 
   public async create(
-    { body }: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
-    res: Response,
+    {
+      body,
+    }: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
+    res: Response
   ): Promise<void> {
     const existsUser = await this.userService.findByEmail(body.email);
 
     if (existsUser) {
       throw new HttpError(
         StatusCodes.CONFLICT,
-        `Пользователь с email «${ body.email }» уже существует`,
+        `Пользователь с email «${body.email}» уже существует`,
         'UserController'
       );
     }
 
-    const result = await this.userService.create(body, this.configService.get('SALT'));
-    this.created(
-      res,
-      fillDTO(UserRdo, result)
+    const result = await this.userService.create(
+      body,
+      this.configService.get('SALT')
     );
+    this.created(res, fillDTO(UserRdo, result));
   }
 
   public async login(
-    { body }: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
-    _res: Response,
+    {
+      body,
+    }: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+    _res: Response
   ): Promise<void> {
     const existsUser = await this.userService.findByEmail(body.email);
 
     if (!existsUser) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
-        `Пользователя с email ${ body.email } не существует`,
-        'UserController',
+        `Пользователя с email ${body.email} не существует`,
+        'UserController'
       );
     }
 
     throw new HttpError(
       StatusCodes.NOT_IMPLEMENTED,
       'Метод не закончен',
-      'UserController',
+      'UserController'
     );
   }
 }

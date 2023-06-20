@@ -1,8 +1,3 @@
-export type TFeatures =
-  | 'Breakfast'
-  | 'Air conditioning'
-  | 'Laptop friendly workspace'
-  | 'Baby seat'
-  | 'Washer'
-  | 'Towels'
-  | 'Fridge';
+import { FEATURES } from '../core/helpers/index.js';
+
+export type TFeatures = typeof FEATURES[number];
