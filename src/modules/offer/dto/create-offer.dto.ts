@@ -1,7 +1,7 @@
 import { ArrayUnique, IsArray, IsBoolean, IsDateString, IsIn, IsInt, IsMongoId, IsObject, Max, Min, Length } from 'class-validator';
 
 import { TOffer } from '../../../types/offer.type.js';
-import { CITIES, DATA_MIN_MAX, FEATURES, HOUSING_TYPES } from '../../../core/helpers/index.js';
+import { CITY_NAMES, DATA_MIN_MAX, FEATURES, HOUSING_TYPES } from '../../../core/helpers/index.js';
 
 export default class CreateOfferDto {
   @Length(DATA_MIN_MAX.titleLength[0], DATA_MIN_MAX.titleLength[1])
@@ -13,7 +13,7 @@ export default class CreateOfferDto {
   @IsDateString({})
   public postedAt!: TOffer['postedAt'];
 
-  @IsIn(CITIES)
+  @IsIn(CITY_NAMES)
   public city!: TOffer['city'];
 
   @IsBoolean()
