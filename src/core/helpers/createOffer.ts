@@ -40,7 +40,7 @@ export function createOffer(offerData: string): TOffer {
     bedroomsAmount: Number(bedroomsAmount),
     capacity: Number(capacity),
     price: Number(price),
-    features: features.split(TSV_SEPARATOR.String) as TOffer['features'],
+    features: features.split(TSV_SEPARATOR.String) as unknown as TOffer['features'],
     user: {
       name,
       email,

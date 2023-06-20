@@ -20,7 +20,7 @@ export type TOffer = {
   bedroomsAmount: number; // 1 — 8
   capacity: number; // 1 — 10
   price: number; // 100 — 100_000
-  features: TFeatures[];
+  features: TFeatures;
   user: TUser;
   commentsAmount: number;
   location: TLocation;

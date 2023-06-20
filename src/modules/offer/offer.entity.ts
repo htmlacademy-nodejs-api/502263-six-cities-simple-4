@@ -1,5 +1,6 @@
-import typegoose, {defaultClasses, getModelForClass } from '@typegoose/typegoose';
+import typegoose, { Ref, defaultClasses, getModelForClass } from '@typegoose/typegoose';
 import { TOffer } from '../../types/offer.type.js';
+import { UserEntity } from '../user/user.entity.js';
 
 const { prop, modelOptions } = typegoose;
 
@@ -50,8 +51,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true})
   public features!: TOffer['features'];
 
-  @prop({required: true})
-  public user!: TOffer['user'];
+  @prop({ref: UserEntity,required: true})
+  public userId!: Ref<UserEntity>;
 
   @prop({default: 0})
   public commentsAmount!: TOffer['commentsAmount'];
