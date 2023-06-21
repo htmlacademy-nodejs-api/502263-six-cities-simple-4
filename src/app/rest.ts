@@ -53,6 +53,7 @@ export default class RestApplication {
     this.expressApplication.use('/users', this.userController.router);
     this.expressApplication.use('/offers', this.offerController.router);
     this.expressApplication.use('/comments', this.commentController.router);
+    this.expressApplication.use('/upload', express.static(this.config.get('UPLOAD_DIRECTORY')));
 
     this.logger.success('Инициализация маршрутов завершена успешно');
   }
