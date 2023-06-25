@@ -8,7 +8,6 @@ export default class CreateCommentDto {
   @IsMongoId()
   public offerId!: string;
 
-  @IsMongoId()
   public userId!: string;
 
   @IsInt()

@@ -1,4 +1,4 @@
-import { ArrayUnique, IsArray, IsBoolean, IsDateString, IsIn, IsInt, IsMongoId, IsObject, Max, Min, Length } from 'class-validator';
+import { ArrayUnique, IsArray, IsBoolean, IsDateString, IsIn, IsInt, IsObject, Max, Min, Length } from 'class-validator';
 
 import { TOffer } from '../../../types/offer.type.js';
 import { CITY_NAMES, DATA_MIN_MAX, FEATURES, HOUSING_TYPES } from '../../../core/helpers/index.js';
@@ -47,8 +47,7 @@ export default class CreateOfferDto {
   @IsIn(FEATURES, {each: true})
   public features!: TOffer['features'];
 
-  @IsMongoId()
-  public user!: TOffer['user'];
+  public userId!: string;
 
   @IsInt()
   public commentsAmount!: TOffer['commentsAmount'];
