@@ -12,6 +12,7 @@ import { LoggerInterface } from '../../core/logger/logger.interface.js';
 import { AppComponent } from '../../types/app-component.enum.js';
 import CommentRdo from './rdo/comment.rdo.js';
 import { ValidateDtoMiddleware } from '../../core/middlewares/validate-dto.middleware.js';
+import { PrivateRouteMiddleware } from '../../core/middlewares/private-route.middleware.js';
 
 export default class CommentController extends Controller {
   constructor(
@@ -28,16 +29,19 @@ export default class CommentController extends Controller {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateCommentDto)],
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateCommentDto)
+      ],
     });
   }
 
   public async create(
-    { body }: Request<object, object, CreateCommentDto>,
+    { body, user }: Request<object, object, CreateCommentDto>,
     res: Response
   ): Promise<void> {
     const { offerId } = body;
-    const comment = await this.commentService.create(body);
+    const comment = await this.commentService.create({ ...body, userId: user.id });
     await this.offerService.incCommentsAmount(offerId);
     this.created(res, fillDTO(CommentRdo, comment));
   }

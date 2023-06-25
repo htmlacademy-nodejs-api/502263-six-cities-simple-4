@@ -33,7 +33,7 @@ export default class OfferRDO {
   @Expose()
   public commentsAmount!: TOffer['commentsAmount'];
 
-  @Expose({ name: 'id'})
+  @Expose({ name: 'userId'})
   @Type(() => UserRdo)
   public user!: UserRdo; // TODO протыкать чтобы возвращало, что нужно (также относится к populate)
 }
