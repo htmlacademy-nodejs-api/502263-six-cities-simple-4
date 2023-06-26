@@ -13,6 +13,8 @@ export type RestSchema = {
   DB_NAME: string;
   UPLOAD_DIRECTORY: string;
   JWT_SECRET: string;
+  HOST: string;
+  STATIC_DIRECTORY_PATH: string;
 }
 
 export const configRestSchema = convict<RestSchema>({
@@ -69,5 +71,17 @@ export const configRestSchema = convict<RestSchema>({
     format: String,
     env: 'JWT_SECRET',
     default: null
-  }
+  },
+  HOST: {
+    doc: 'Путь для старта сервиса',
+    format: String,
+    env: 'HOST',
+    default: 'localhost'
+  },
+  STATIC_DIRECTORY_PATH: {
+    doc: 'Путь до статики, ресурсов, которые не будут изменяться',
+    format: String,
+    env: 'STATIC_DIRECTORY_PATH',
+    default: 'static'
+  },
 });

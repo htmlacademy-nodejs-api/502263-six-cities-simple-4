@@ -8,6 +8,7 @@ export type TMockData = {
     coords: [number, number];
   }[];
   photos: string[];
+  preview: string;
   features: string[];
   housing: string[];
   user: {

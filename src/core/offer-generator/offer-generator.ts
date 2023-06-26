@@ -8,6 +8,7 @@ import {
   getRandomBoolean,
   getRandomLengthArr,
   TSV_SEPARATOR,
+  DATA_MIN_MAX,
 } from '../helpers/index.js';
 
 export default class OfferGenerator implements OfferGeneratorInterface {
@@ -36,7 +37,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const mainPhoto = getRandomArrItem<string>(photos);
     const offerPhotos = photos.join(TSV_SEPARATOR.String);
     const isPremium = getRandomBoolean();
-    const rating = getRandomIntFromMinMaxTuple(minMax.rating);
+    const rating = DATA_MIN_MAX.rating[0];
     const housingName = getRandomArrItem<string>(housing);
     const bedroomsAmount = getRandomIntFromMinMaxTuple(minMax.bedrooms);
     const capacity = getRandomIntFromMinMaxTuple(minMax.capacity);

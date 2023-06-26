@@ -27,8 +27,11 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true})
   public city!: TOffer['city'];
 
-  @prop()
+  @prop({default: []})
   public photos!: TOffer['photos'];
+
+  @prop({default: ''})
+  public preview!: TOffer['preview'];
 
   @prop({default: false})
   public isPremium!: TOffer['isPremium'];

@@ -9,8 +9,10 @@ import { RestSchema } from '../core/config/rest.schema.js';
 import ConfigService from '../core/config/config.service.js';
 import { DatabaseClientInterface } from '../core/database-client/database-client.interface.js';
 import MongoClientService from '../core/database-client/mongo-client.service.js';
-import { ExceptionFilterInterface } from '../core/exception-filter/exception-filter.interface.js';
-import ExceptionFilter from '../core/exception-filter/exception-filter.js';
+import { ExceptionFilterInterface } from '../core/exception-filters/exception-filter.interface.js';
+import BaseExceptionFilter from '../core/exception-filters/base.exception-filter.js';
+import HttpErrorExceptionFilter from '../core/exception-filters/http-error.exception-filter.js';
+import ValidationExceptionFilter from '../core/exception-filters/validation.exception-filter.js';
 
 export function createRestApplicationContainer() {
   const restApplicationContainer = new Container();
@@ -19,7 +21,9 @@ export function createRestApplicationContainer() {
   restApplicationContainer.bind<LoggerInterface>(AppComponent.LoggerInterface).to(PinoService).inSingletonScope();
   restApplicationContainer.bind<ConfigInterface<RestSchema>>(AppComponent.ConfigInterface).to(ConfigService).inSingletonScope();
   restApplicationContainer.bind<DatabaseClientInterface>(AppComponent.DatabaseClientInterface).to(MongoClientService).inSingletonScope();
-  restApplicationContainer.bind<ExceptionFilterInterface>(AppComponent.ExceptionFilterInterface).to(ExceptionFilter).inSingletonScope();
+  restApplicationContainer.bind<ExceptionFilterInterface>(AppComponent.HttpErrorExceptionFilter).to(HttpErrorExceptionFilter).inSingletonScope();
+  restApplicationContainer.bind<ExceptionFilterInterface>(AppComponent.ValidationExceptionFilter).to(ValidationExceptionFilter).inSingletonScope();
+  restApplicationContainer.bind<ExceptionFilterInterface>(AppComponent.BaseExceptionFilter).to(BaseExceptionFilter).inSingletonScope();
 
   return restApplicationContainer;
 }

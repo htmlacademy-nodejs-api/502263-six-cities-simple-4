@@ -22,6 +22,9 @@ export default class OfferRDO {
   public city!: TOffer['city'];
 
   @Expose()
+  public preview!: TOffer['preview'];
+
+  @Expose()
   public photos!: TOffer['photos'];
 
   @Expose()

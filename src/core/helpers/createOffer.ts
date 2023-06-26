@@ -30,10 +30,8 @@ export function createOffer(offerData: string): TOffer {
     description,
     postedAt: new Date(postedAt),
     city: city as TOffer['city'],
-    photos: {
-      preview,
-      all: allPhotos.split(TSV_SEPARATOR.String) as TOffer['photos']['all'],
-    },
+    photos: allPhotos.split(TSV_SEPARATOR.String) as TOffer['photos'],
+    preview,
     isPremium: stringBoolToBool(isPremium as TStringBool),
     rating: Number(rating),
     housing: housing as TOffer['housing'],

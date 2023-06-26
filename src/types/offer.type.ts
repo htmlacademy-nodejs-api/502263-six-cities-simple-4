@@ -10,10 +10,8 @@ export type TOffer = {
   description: string; // length === 20 — 1024
   postedAt: Date;
   city: TCity;
-  photos: {
-    preview: string;
-    all: TOfferPhotos;
-  };
+  preview: string;
+  photos: TOfferPhotos;
   isPremium: boolean;
   rating: number; // 1.0 — 5.0
   housing: THousing;
