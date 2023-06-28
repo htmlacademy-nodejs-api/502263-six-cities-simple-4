@@ -25,6 +25,7 @@ import { UploadImagesResponse, UploadPreviewResponse } from './rdo/upload-image.
 import { StatusCodes } from 'http-status-codes';
 import HttpError from '../../core/errors/http-error.js';
 import { UploadFileMiddleware } from '../../core/middlewares/upload-file.middleware.js';
+import { VALIDATE_OBJECT_ID } from './offer.constant.js';
 
 
 type ParamsGetOffer = {
@@ -46,25 +47,25 @@ export default class OfferController extends Controller {
       path: '/:offerId',
       method: HttpMethod.Get,
       handler: this.show,
-      middlewares: [new ValidateObjectIdMiddleware('offerId'), new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]
+      middlewares: [new ValidateObjectIdMiddleware(VALIDATE_OBJECT_ID), new DocumentExistsMiddleware(this.offerService, 'Offer', VALIDATE_OBJECT_ID)]
     });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Delete,
       handler: this.delete,
-      middlewares: [new PrivateRouteMiddleware(), new ValidateObjectIdMiddleware('offerId'), new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]
+      middlewares: [new PrivateRouteMiddleware(), new ValidateObjectIdMiddleware(VALIDATE_OBJECT_ID), new DocumentExistsMiddleware(this.offerService, 'Offer', VALIDATE_OBJECT_ID)]
     });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Patch,
       handler: this.update,
-      middlewares: [new PrivateRouteMiddleware(), new ValidateObjectIdMiddleware('offerId'), new ValidateDtoMiddleware(UpdateOfferDto), new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]
+      middlewares: [new PrivateRouteMiddleware(), new ValidateObjectIdMiddleware(VALIDATE_OBJECT_ID), new ValidateDtoMiddleware(UpdateOfferDto), new DocumentExistsMiddleware(this.offerService, 'Offer', VALIDATE_OBJECT_ID)]
     });
     this.addRoute({
       path: '/:offerId/comments',
       method: HttpMethod.Get,
       handler: this.getComments,
-      middlewares: [new ValidateObjectIdMiddleware('offerId'), new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]
+      middlewares: [new ValidateObjectIdMiddleware(VALIDATE_OBJECT_ID), new DocumentExistsMiddleware(this.offerService, 'Offer', VALIDATE_OBJECT_ID)]
     });
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
@@ -83,7 +84,7 @@ export default class OfferController extends Controller {
       handler: this.uploadPreviewImage,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateObjectIdMiddleware(VALIDATE_OBJECT_ID),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'preview'),
       ]
     });
@@ -93,7 +94,7 @@ export default class OfferController extends Controller {
       handler: this.uploadImages,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateObjectIdMiddleware(VALIDATE_OBJECT_ID),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'photos', true),
       ]
     });
