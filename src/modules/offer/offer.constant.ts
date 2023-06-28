@@ -1,2 +1,2 @@
 export const DEFAULT_OFFER_AMOUNT = 60;
-export const DEFAULT_POPULATE_OPTIONS = ['userId', 'comments'];
+export const VALIDATE_OBJECT_ID = 'offerId';

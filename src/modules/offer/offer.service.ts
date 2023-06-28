@@ -26,18 +26,12 @@ export default class OfferService implements OfferServiceInterface {
   public findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findById(offerId)
-      // .populate(DEFAULT_POPULATE_OPTIONS) // TODO populate не работает:
-      // — If you are populating a virtual, you must set the localField and foreignField options
-      // — Cannot populate path `userId` because it is not in your schema. Set the `strictPopulate` option to false to override.
-      // ? вероятно трабл в том, что в БД у предложения в поле user нет сгенерированного id пользователя ?
       .exec();
   }
 
   public find(amount: number): Promise<DocumentType<OfferEntity>[]> {
-    // TODO передавать откуда начинать поиск, так при большом количестве офферов и небольшом лимите всегда будет возвращаться один и тот же набор
     return this.offerModel
       .find({}, {}, {limit: amount || DEFAULT_OFFER_AMOUNT})
-      // .populate(DEFAULT_POPULATE_OPTIONS) // TODO
       .exec();
   }
 
@@ -50,7 +44,6 @@ export default class OfferService implements OfferServiceInterface {
   public updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, {new: true})
-      // .populate(DEFAULT_POPULATE_OPTIONS) // TODO
       .exec();
   }
 

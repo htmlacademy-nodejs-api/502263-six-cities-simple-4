@@ -3,8 +3,6 @@ import { Expose, Type } from 'class-transformer';
 import { TOffer } from '../../../types/offer.type';
 import UserRdo from '../../user/rdo/user.rdo.js';
 
-// TODO вероятно RDO тут нужно, и надо возвращать все поля — https://up.htmlacademy.ru/nodejs-api/4/project/six-cities-simple#get-details-offer
-
 export default class OfferRDO {
   @Expose()
   public price!: TOffer['price'];
@@ -38,5 +36,5 @@ export default class OfferRDO {
 
   @Expose({ name: 'userId'})
   @Type(() => UserRdo)
-  public user!: UserRdo; // TODO протыкать чтобы возвращало, что нужно (также относится к populate)
+  public user!: UserRdo;
 }
