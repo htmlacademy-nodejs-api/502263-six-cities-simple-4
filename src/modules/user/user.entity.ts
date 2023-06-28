@@ -12,7 +12,6 @@ export interface UserEntity extends defaultClasses.Base {}
     collection: 'users'
   }
 })
-/** extend от defaultClasses.TimeStamps дает классу поля createdAt, updatedAt */
 export class UserEntity extends defaultClasses.TimeStamps implements TUser {
   constructor(userData: TUser) {
     super();

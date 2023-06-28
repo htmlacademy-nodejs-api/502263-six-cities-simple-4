@@ -1,7 +1,7 @@
 export type TUser = {
-  name: string; // length 1 — 15
+  name: string;
   email: string;
   userpic: string;
-  password: string; // length 6 — 12
+  password: string;
   isPro: boolean;
 };
