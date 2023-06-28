@@ -13,6 +13,8 @@ import { AppComponent } from '../../types/app-component.enum.js';
 import CommentRdo from './rdo/comment.rdo.js';
 import { ValidateDtoMiddleware } from '../../core/middlewares/validate-dto.middleware.js';
 import { PrivateRouteMiddleware } from '../../core/middlewares/private-route.middleware.js';
+import { RestSchema } from '../../core/config/rest.schema.js';
+import { ConfigInterface } from '../../core/config/config.interface.js';
 
 export default class CommentController extends Controller {
   constructor(
@@ -20,9 +22,10 @@ export default class CommentController extends Controller {
     @inject(AppComponent.CommentServiceInterface)
     private readonly commentService: CommentServiceInterface,
     @inject(AppComponent.OfferServiceInterface)
-    private readonly offerService: OfferServiceInterface
+    private readonly offerService: OfferServiceInterface,
+    @inject(AppComponent.ConfigInterface) configService: ConfigInterface<RestSchema>
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Регистрируем руты для CommentController…');
     this.addRoute({

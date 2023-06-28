@@ -1,4 +1,4 @@
-import { IsDateString, IsInt, Max, Length, Min, IsObject, IsIn, IsOptional } from 'class-validator';
+import { IsDateString, IsInt, Max, Length, Min, IsIn, IsOptional, IsArray, IsString, ArrayUnique, ArrayMaxSize, ArrayMinSize } from 'class-validator';
 
 import { TOffer } from '../../../types/offer.type';
 import { DATA_MIN_MAX, HOUSING_TYPES } from '../../../core/helpers/index.js';
@@ -17,7 +17,14 @@ export default class UpdateOfferDto implements Partial<TOffer> {
   public postedAt?: TOffer['postedAt'];
 
   @IsOptional()
-  @IsObject()
+  @IsString()
+  public preview?: TOffer['preview'];
+
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(DATA_MIN_MAX.photosArrLength[0])
+  @ArrayMaxSize(DATA_MIN_MAX.photosArrLength[1])
+  @ArrayUnique()
   public photos?: TOffer['photos'];
 
   @IsOptional()

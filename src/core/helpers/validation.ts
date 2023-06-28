@@ -11,6 +11,7 @@ export const DATA_MIN_MAX = {
   userNameLength: [1, 15],
   passwordLength: [1, 12],
   commentLength: [5, 1024],
+  photosArrLength: [6, 6],
 } as const;
 
 export const CITY_NAMES = [
@@ -34,4 +35,4 @@ export const FEATURES = [
 
 export const HOUSING_TYPES = ['apartment', 'house', 'room', 'hotel'] as const;
 
-export const IMAGE_URL_REGEXP = /\.(jpg|jpeg|png)(\?(.*))?$/gi;
+export const IMAGE_URL_REGEXP = /\.(jpg|png)(\?(.*))?$/gi;

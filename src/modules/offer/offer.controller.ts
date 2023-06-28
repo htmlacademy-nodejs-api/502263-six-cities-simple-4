@@ -1,5 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
 import * as core from 'express-serve-static-core';
 
 import { Controller } from '../../core/controller/controller.abstract.js';
@@ -18,20 +19,27 @@ import { ValidateObjectIdMiddleware } from '../../core/middlewares/validate-obje
 import { ValidateDtoMiddleware } from '../../core/middlewares/validate-dto.middleware.js';
 import { DocumentExistsMiddleware } from '../../core/middlewares/document-exists.middleware.js';
 import { PrivateRouteMiddleware } from '../../core/middlewares/private-route.middleware.js';
+import { ConfigInterface } from '../../core/config/config.interface.js';
+import { RestSchema } from '../../core/config/rest.schema.js';
+import { UploadImagesResponse, UploadPreviewResponse } from './rdo/upload-image.rdo.js';
+import { StatusCodes } from 'http-status-codes';
+import HttpError from '../../core/errors/http-error.js';
+import { UploadFileMiddleware } from '../../core/middlewares/upload-file.middleware.js';
 
 
 type ParamsGetOffer = {
   offerId: string;
-}
+} | ParamsDictionary
 
 @injectable()
 export default class OfferController extends Controller {
   constructor(
     @inject(AppComponent.LoggerInterface) logger: LoggerInterface,
     @inject(AppComponent.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
-    @inject(AppComponent.CommentServiceInterface) private readonly commentService: CommentServiceInterface
+    @inject(AppComponent.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
+    @inject(AppComponent.ConfigInterface) configService: ConfigInterface<RestSchema>
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Регистрируем руты для OfferController…');
     this.addRoute({
@@ -67,6 +75,26 @@ export default class OfferController extends Controller {
       middlewares: [
         new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateOfferDto)
+      ]
+    });
+    this.addRoute({
+      path: '/:offerId/preview',
+      method: HttpMethod.Post,
+      handler: this.uploadPreviewImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'preview'),
+      ]
+    });
+    this.addRoute({
+      path: '/:offerId/photos',
+      method: HttpMethod.Post,
+      handler: this.uploadImages,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'photos', true),
       ]
     });
   }
@@ -119,5 +147,40 @@ export default class OfferController extends Controller {
   ): Promise<void> {
     const comments = await this.commentService.findByOfferId(params.offerId);
     this.ok(res, fillDTO(CommentRdo, comments));
+  }
+
+  public async uploadPreviewImage(req: Request<ParamsGetOffer>, res: Response) {
+    if (!req.file?.filename) {
+      throw new HttpError(
+        StatusCodes.BAD_REQUEST,
+        'Изображение не передано',
+        'OfferController',
+      );
+    }
+
+    const { offerId } = req.params;
+    const updateDto = { preview: req.file.filename };
+    await this.offerService.updateById(offerId, updateDto);
+    this.created(res, fillDTO(UploadPreviewResponse, {updateDto}));
+  }
+
+  public async uploadImages({ files, params }: Request<ParamsGetOffer, UnknownRecord, UnknownRecord>, res: Response) {
+    if (!Array.isArray(files) || !files.length) {
+      throw new HttpError(
+        StatusCodes.BAD_REQUEST,
+        'Фотографии не переданы',
+        'RentController',
+      );
+    }
+
+    const { offerId } = params;
+    const updateDto = { photos: files.reduce<string[]>((acc, file) => {
+      if (file?.filename) {
+        acc.push(file.filename);
+      }
+      return acc;
+    }, [])};
+    await this.offerService.updateById(offerId, updateDto);
+    this.created(res, fillDTO(UploadImagesResponse, updateDto));
   }
 }

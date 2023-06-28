@@ -54,7 +54,4 @@ export default class CreateOfferDto {
 
   @IsObject()
   public location!: TOffer['location'];
-
-  @IsObject()
-  public photos!: TOffer['photos'];
 }
